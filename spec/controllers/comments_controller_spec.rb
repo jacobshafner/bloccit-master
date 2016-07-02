@@ -38,6 +38,27 @@ RSpec.describe CommentsController, type: :controller do
         post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence}
         expect(response).to redirect_to [my_topic, my_post]
       end
+
+      context "with too short a body" do
+        it "doesn't increase the number of comments" do
+          expect{ post :create, post_id: my_post.id, comment: {body: 'asdf'} }.to change(Comment,:count).by(0)
+        end
+
+        it "redirects to the post show view" do
+          post :create, post_id: my_post.id, comment: {body: 'asdf'}
+          expect(response).to redirect_to [my_topic, my_post]
+        end
+
+        it "sets flash[:alert]" do
+          post :create, post_id: my_post.id, comment: {body: 'asdf'}
+          expect(flash[:alert]).to include('failed to save')
+        end
+
+        it "the comment has an error on its body" do
+          post :create, post_id: my_post.id, comment: {body: 'asdf'}
+          expect(assigns(:comment).errors.messages[:body]).to_not be_empty
+        end
+      end
     end
 
     describe "DELETE destroy" do

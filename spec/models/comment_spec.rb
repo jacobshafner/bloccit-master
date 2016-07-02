@@ -16,6 +16,10 @@ RSpec.describe Comment, type: :model do
 		it "has a body attribute" do
 			expect(comment).to have_attributes(body: "Comment Body")
 		end
+
+		it "is invalid with a body shorter than 5 character" do
+			expect(Comment.new(user: user, body: 'asdf')).to_not be_valid
+		end
 	end
 
 	describe "after_create" do
