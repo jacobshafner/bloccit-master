@@ -52,11 +52,12 @@ end
 
 group :development do
 	gem 'sqlite3'
-	gem 'rspec-rails'
 end
 
 group :development, :test do
-  gem 'shoulda'
+    gem 'rspec-rails'
+    gem 'shoulda'
+    gem 'factory_girl_rails', '~> 4.0'
 end
 
 gem 'bootstrap-sass'
