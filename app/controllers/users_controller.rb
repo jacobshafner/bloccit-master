@@ -9,6 +9,10 @@ class UsersController < ApplicationController
       @posts = @user.posts.visible_to(current_user)
   end
 
+  def user_favorite
+    @user_favorites = @user.favorite
+  end
+
   def create
     @user = User.new
     @user.name = params[:user][:name]
